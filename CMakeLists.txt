@@ -55,7 +55,7 @@ set(SRC
 
 		# Main
 		Diceling.cpp
-)
+        widgets/ChiraOpenGLWidget.cpp widgets/ChiraOpenGLWidget.h)
 
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/configs/config_defaults.json" "${CMAKE_BINARY_DIR}/configs/config_defaults.json")

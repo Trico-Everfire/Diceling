@@ -6,7 +6,6 @@ build
 libs/Steam-Workshop-API/sdk/
 libs/Qt/**
 !libs/Qt/Readme.txt
-configs
 
 
 # CMake with Visual Studio
