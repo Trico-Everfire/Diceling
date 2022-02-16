@@ -1,0 +1,31 @@
+build_old/
+build
+.vscode 
+.idea
+.ccls-cache
+libs/Steam-Workshop-API/sdk/
+libs/Qt/**
+!libs/Qt/Readme.txt
+configs
+
+
+# CMake with Visual Studio
+tags
+*.workspace
+.codelite
+.vs/
+.vscode/
+CMakeFiles/
+out/
+[Dd]ebug*/
+[Rr]elease*/
+*.dir/
+*_autogen/
+*.vcxproj*
+cmake_install.cmake
+CMakeCache.txt
+CMakeSettings.json
+*.sln
+
+# CMake with CLion
+cmake-build-*/

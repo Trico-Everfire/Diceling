@@ -1,0 +1,3 @@
+[submodule "libs/chiraEngine"]
+	path = libs/chiraEngine
+	url = https://github.com/craftablescience/ChiraEngine.git
