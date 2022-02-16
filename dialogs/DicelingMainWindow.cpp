@@ -20,11 +20,9 @@ CDicelingMainWindow::CDicelingMainWindow(QWidget *parent) : QDialog(parent)
     buttonBox->setGeometry(QRect(460, 490, 181, 32));
     buttonBox->setOrientation(Qt::Horizontal);
     buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Reset);
-    frame = new QFrame(this);
+    frame = new QOpenGLWidget(this);
     frame->setObjectName(QString::fromUtf8("frame"));
     frame->setGeometry(QRect(170, 20, 301, 271));
-    frame->setFrameShape(QFrame::StyledPanel);
-    frame->setFrameShadow(QFrame::Raised);
 
     pushButton = new QPushButton(this);
     pushButton->setObjectName(QString::fromUtf8("pushButton"));
@@ -113,6 +111,8 @@ CDicelingMainWindow::CDicelingMainWindow(QWidget *parent) : QDialog(parent)
     QRandomGenerator random(67347);
     QRandomGenerator random2(3485348);
     QRandomGenerator random3(4594578);
+
+
     for(int i = 0; i < 24; i++){
         std::string adjective = adjectives.at(random.bounded(0,adjectives.size()));
         std::string type = arr.at(random2.bounded(0,9));

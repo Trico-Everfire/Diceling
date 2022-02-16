@@ -7,7 +7,7 @@
 #include <QApplication>
 #include <QComboBox>
 #include <QDialogButtonBox>
-#include <QFrame>
+#include <QOpenGLWidget>
 #include <QLabel>
 #include <QPushButton>
 #include <QSpinBox>
@@ -22,7 +22,7 @@ namespace ui
         Q_OBJECT
     public:
         QDialogButtonBox *buttonBox;
-        QFrame *frame;
+        QOpenGLWidget *frame;
         QPushButton *pushButton;
         QPushButton *pushButton_2;
         QPushButton *pushButton_3;
