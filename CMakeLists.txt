@@ -14,11 +14,13 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-set(CHIRA_BUILD_TESTS           OFF CACHE BOOL "" FORCE)
-set(CHIRA_BUILD_WITH_WARNINGS   OFF CACHE BOOL "" FORCE)
-set(CHIRA_BUILD_EDITOR          OFF CACHE BOOL "" FORCE)
-set(CHIRA_BUILD_MODEL_VIEWER    OFF CACHE BOOL "" FORCE)
-set(CHIRA_BUILD_WITH_STEAMWORKS OFF CACHE BOOL "" FORCE)
+set(CHIRA_BUILD_EDITOR           OFF CACHE BOOL "" FORCE)
+set(CHIRA_BUILD_MODEL_VIEWER     OFF CACHE BOOL "" FORCE)
+set(CHIRA_BUILD_TESTS            OFF CACHE BOOL "" FORCE)
+set(CHIRA_BUILD_WITH_ANGELSCRIPT OFF CACHE BOOL "" FORCE)
+set(CHIRA_BUILD_WITH_NETWORKING  OFF CACHE BOOL "" FORCE)
+set(CHIRA_BUILD_WITH_STEAMWORKS  OFF CACHE BOOL "" FORCE)
+set(CHIRA_BUILD_WITH_WARNINGS    OFF CACHE BOOL "" FORCE)
 add_subdirectory("${CMAKE_SOURCE_DIR}/libs/chiraEngine/")
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -55,11 +57,12 @@ set(SRC
 		dialogs/DicelingConfig.cpp
 		dialogs/DicelingConfig.h
 		# Widgets
-		widgets/ChiraOpenGLWidget.cpp
-		widgets/ChiraOpenGLWidget.h
+		widgets/ChiraEngineWidget.cpp
+		widgets/ChiraEngineWidget.h
+		widgets/ChiraEngineWorkerThread.cpp
+		widgets/ChiraEngineWorkerThread.h
 		# Main
-		Diceling.cpp
-		)
+		Diceling.cpp)
 
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/configs/config_defaults.json" "${CMAKE_BINARY_DIR}/configs/config_defaults.json")
@@ -72,13 +75,6 @@ if(UNIX)
 	configure_file("${CMAKE_CURRENT_SOURCE_DIR}/libs/Qt/libQt5Gui.so.5.15.2" "${CMAKE_BINARY_DIR}/libQt5Gui.so" COPYONLY)
 	configure_file("${CMAKE_CURRENT_SOURCE_DIR}/libs/Qt/libQt5Widgets.so.5.15.2" "${CMAKE_BINARY_DIR}/libQt5Widgets.so" COPYONLY)
 	configure_file("${CMAKE_CURRENT_SOURCE_DIR}/libs/Qt/libQt5Network.so.5.15.2" "${CMAKE_BINARY_DIR}/libQt5Network.so" COPYONLY)
-	
-	set(STEAM_API  "${CMAKE_CURRENT_SOURCE_DIR}/libs/Steam-Workshop-API/sdk/redistributable_bin/linux64/libsteam_api.so")
-	configure_file("${CMAKE_CURRENT_SOURCE_DIR}/libs/Steam-Workshop-API/sdk/redistributable_bin/linux64/libsteam_api.so" "${CMAKE_BINARY_DIR}/libsteam_api.so" COPYONLY)
-elseif(WIN32)
-	# MinGW doesn't like this, but the steam api DLL is incompatible with it anyway
-	set(STEAM_API  "${CMAKE_CURRENT_SOURCE_DIR}/libs/Steam-Workshop-API/sdk/redistributable_bin/win64/steam_api64.lib")
-	configure_file("${CMAKE_CURRENT_SOURCE_DIR}/libs/Steam-Workshop-API/sdk/redistributable_bin/win64/steam_api64.dll" "${CMAKE_BINARY_DIR}/steam_api64.dll" COPYONLY)
 endif()
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/Credits.txt" "${CMAKE_BINARY_DIR}/Credits.txt" COPYONLY)
@@ -95,7 +91,6 @@ add_dependencies(${PROJECT_NAME} copyEngineResources)
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 target_include_directories(${PROJECT_NAME} PRIVATE "${QT_INCLUDE} ${QT_INCLUDE}/QtWidgets" "${QT_INCLUDE}/QtGui" "${QT_INCLUDE}/QtCore" "${QT_INCLUDE}/QtNetwork")
-target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/libs/Steam-Workshop-API/sdk/public/steam")
 
 if(WIN32)
 	# Copy these to bundle them with the program in releases

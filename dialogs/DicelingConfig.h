@@ -2,12 +2,14 @@
 // Created by trico on 1-2-22.
 //
 #pragma once
-#include "libs/JSON/json.hpp"
+
 #include "QTextStream"
 #include "QFile"
 #include "QDir"
 #include "QDebug"
 #include <QVector>
+
+#include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
@@ -25,4 +27,3 @@ struct DicelingConfig
 	inline static std::vector<diceBaggie> DiceBaggies;
 	static void LoadP2MapConfig();
 };
-

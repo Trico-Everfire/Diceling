@@ -1,7 +1,9 @@
 //
 // Created by trico on 15-2-22.
 //
+
 #pragma once
+
 #include <QDialog>
 #include <QVariant>
 #include <QApplication>
@@ -11,9 +13,8 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QSpinBox>
-#include "libs/JSON/json.hpp"
 
-using json = nlohmann::json;
+#include "widgets/ChiraEngineWidget.h"
 
 namespace ui
 {
@@ -22,7 +23,7 @@ namespace ui
         Q_OBJECT
     public:
         QDialogButtonBox *buttonBox;
-        QOpenGLWidget *frame;
+        ChiraEngineWidget *frame;
         QPushButton *pushButton;
         QPushButton *pushButton_2;
         QPushButton *pushButton_3;
@@ -40,7 +41,7 @@ namespace ui
         QPushButton *pushButton_7;
         QPushButton *pushButton_8;
         QPushButton *pushButton_9;
-        CDicelingMainWindow(QWidget *parent);
+        explicit CDicelingMainWindow(QWidget *parent);
 
     private:
         int randomNumberGenerator(int max);
