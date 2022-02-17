@@ -7,7 +7,6 @@ libs/Steam-Workshop-API/sdk/
 libs/Qt/**
 !libs/Qt/Readme.txt
 
-
 # CMake with Visual Studio
 tags
 *.workspace

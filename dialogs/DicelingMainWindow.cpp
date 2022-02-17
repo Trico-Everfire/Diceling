@@ -2,13 +2,19 @@
 // Created by trico on 15-2-22.
 //
 
+#include "DicelingMainWindow.h"
+#include "DicelingConfig.h"
+
 #include <QFile>
 #include <QDir>
 #include <QRandomGenerator>
 #include <QDebug>
-#include "DicelingMainWindow.h"
-#include "DicelingConfig.h"
-#include "widgets/ChiraOpenGLWidget.h"
+
+#include "widgets/ChiraEngineWidget.h"
+
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 using namespace ui;
 
@@ -22,7 +28,7 @@ CDicelingMainWindow::CDicelingMainWindow(QWidget *parent) : QDialog(parent)
     buttonBox->setGeometry(QRect(460, 490, 181, 32));
     buttonBox->setOrientation(Qt::Horizontal);
     buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Reset);
-    frame = new ChiraOpenGLWidget(this);
+    frame = new ChiraEngineWidget(this);
     frame->setObjectName(QString::fromUtf8("frame"));
     frame->setGeometry(QRect(170, 20, 301, 271));
 
@@ -126,7 +132,4 @@ CDicelingMainWindow::CDicelingMainWindow(QWidget *parent) : QDialog(parent)
         std::string type = arr.at(random->bounded(0,9));
         comboBox->addItem(QString(adjective.c_str()) + "\n" + QString(type.c_str()) + " Dice",("{\"adjective\":\""+QString(adjective.c_str())+"\",\"type\":\""+QString(type.c_str())+"\"}"));
     }
-
-
-
 }

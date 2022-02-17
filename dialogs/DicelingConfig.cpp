@@ -32,7 +32,5 @@ void DicelingConfig::LoadP2MapConfig()
         DiceBaggies.emplace_back(name, color, type);
     }
 
-
-
 	file.close();
 }
