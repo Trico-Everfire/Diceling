@@ -52,10 +52,14 @@ set(SRC
 		dialogs/DicelingMainWindow.h
 		dialogs/DicelingConfigHandler.cpp
 		dialogs/DicelingConfigHandler.h
-
+		dialogs/DicelingConfig.cpp
+		dialogs/DicelingConfig.h
+		# Widgets
+		widgets/ChiraOpenGLWidget.cpp
+		widgets/ChiraOpenGLWidget.h
 		# Main
 		Diceling.cpp
-        widgets/ChiraOpenGLWidget.cpp widgets/ChiraOpenGLWidget.h)
+		)
 
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/configs/config_defaults.json" "${CMAKE_BINARY_DIR}/configs/config_defaults.json")

@@ -3,11 +3,13 @@
 #include <QStyleFactory>
 #include <QFile>
 #include <QTextStream>
+#include "dialogs/DicelingConfig.h"
 #include "dialogs/DicelingMainWindow.h"
 
 int main( int argc, char **argv )
 {
     QApplication app(argc,argv);
+    DicelingConfig::LoadP2MapConfig();
 
 //    QCommonStyle *style = (QCommonStyle *)QStyleFactory::create( "fusion" );
 //    app.setStyle( style );

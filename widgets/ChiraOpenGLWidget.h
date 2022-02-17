@@ -6,5 +6,11 @@
 
 class ChiraOpenGLWidget : public QOpenGLWidget
 {
+    void initializeGL() override;
+    void resizeGL(int w, int h) override;
+    void paintGL() override;
+public:
+    ChiraOpenGLWidget(QWidget *parent);
+
 
 };

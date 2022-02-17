@@ -7,6 +7,8 @@
 #include <QRandomGenerator>
 #include <QDebug>
 #include "DicelingMainWindow.h"
+#include "DicelingConfig.h"
+#include "widgets/ChiraOpenGLWidget.h"
 
 using namespace ui;
 
@@ -20,7 +22,7 @@ CDicelingMainWindow::CDicelingMainWindow(QWidget *parent) : QDialog(parent)
     buttonBox->setGeometry(QRect(460, 490, 181, 32));
     buttonBox->setOrientation(Qt::Horizontal);
     buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Reset);
-    frame = new QOpenGLWidget(this);
+    frame = new ChiraOpenGLWidget(this);
     frame->setObjectName(QString::fromUtf8("frame"));
     frame->setGeometry(QRect(170, 20, 301, 271));
 
@@ -86,10 +88,10 @@ CDicelingMainWindow::CDicelingMainWindow(QWidget *parent) : QDialog(parent)
         pushButton_9->setText(QCoreApplication::translate("Diceling", "ROLL DICE", nullptr));
 
     #if QT_CONFIG(tooltip)
-        comboBox->setToolTip(QCoreApplication::translate("Diceling", "<html><head/><body><p>Dice sets is like swapping a baggie of dice for another one.<br/>when your current set of dice just ain't giving you the luck</p><p>you need, just swap to another! Although dice sets are</p><p>randomly generated, you can save a die set in your personal</p><p>box if they brought you good luck.</p><p>saved sets will be marked with a star.<br/><br/>(Disclaimer, all dice are 100% RNG, and sets just change the RNG seed and dice textures.)</p></body></html>", nullptr));
+        comboBox->setToolTip(QCoreApplication::translate("Diceling", "<html><head/><body><p>Dice sets is like swapping a baggie of dice for another one.<br/>when your current set of dice just ain't giving you the luck</p><p>you need, just swap to another! Although dice sets are</p><p>randomly generated, you can save a die set in your personal</p><p>box if they brought you good luck.</p><p>saved sets will be marked with a star.<br/><br/>(Disclaimer, all dice are 100% RNG, and sets just change the  dice textures.)</p></body></html>", nullptr));
     #endif // QT_CONFIG(tooltip)
     #if QT_CONFIG(whatsthis)
-        comboBox->setWhatsThis(QCoreApplication::translate("Diceling", "<html><head/><body><p>Dice sets is like swapping a baggie of dice for another one.<br/>when your current set of dice just ain't giving you the luck</p><p>you need, just swap to another! Although dice sets are</p><p>randomly generated, you can save a die set in your personal</p><p>box if they brought you good luck.<br/><br/>(Disclaimer, all dice are 100% RNG, and sets just change the</p><p>RNG seed and dice textures.)</p></body></html>", nullptr));
+        comboBox->setWhatsThis(QCoreApplication::translate("Diceling", "<html><head/><body><p>Dice sets is like swapping a baggie of dice for another one.<br/>when your current set of dice just ain't giving you the luck</p><p>you need, just swap to another! Although dice sets are</p><p>randomly generated, you can save a die set in your personal</p><p>box if they brought you good luck.<br/><br/>(Disclaimer, all dice are 100% RNG, and sets just change the</p><p> dice textures.)</p></body></html>", nullptr));
     #endif // QT_CONFIG(whatsthis)
         label->setText(QCoreApplication::translate("Diceling", "Dice Set:", nullptr));
         pushButton_7->setText(QCoreApplication::translate("Diceling", "Save Set", nullptr));
@@ -99,6 +101,9 @@ CDicelingMainWindow::CDicelingMainWindow(QWidget *parent) : QDialog(parent)
         pushButton_8->setText(QCoreApplication::translate("Diceling", "Banish Set", nullptr));
     QObject::connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     QObject::connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    QObject::connect(pushButton_7,&QPushButton::pressed, this, [&](){
+        qInfo() << comboBox->currentData();
+    });
 
     QMetaObject::connectSlotsByName(this);
 
@@ -108,15 +113,18 @@ CDicelingMainWindow::CDicelingMainWindow(QWidget *parent) : QDialog(parent)
     file.close();
 
     json arr = json::parse("[\"fire\", \"water\", \"ice\", \"earth\", \"plant\", \"mythical\", \"magical\", \"enchanted\", \"ancient\" ]");
-    QRandomGenerator random(67347);
-    QRandomGenerator random2(3485348);
-    QRandomGenerator random3(4594578);
+    QRandomGenerator* random = QRandomGenerator::global();
 
+    int index = 0;
+    for(diceBaggie bag : DicelingConfig::DiceBaggies){
+        comboBox->addItem(QString(bag.diceName.c_str()) + "\n" + QString(bag.diceType.c_str()) + " Dice ⭐",index);
+        index++;
+    }
 
     for(int i = 0; i < 24; i++){
-        std::string adjective = adjectives.at(random.bounded(0,adjectives.size()));
-        std::string type = arr.at(random2.bounded(0,9));
-        comboBox->addItem(QString(adjective.c_str()) + "\n" + QString(type.c_str()) + " Dice ⭐",random3.generate());
+        std::string adjective = adjectives.at(random->bounded(0,adjectives.size()));
+        std::string type = arr.at(random->bounded(0,9));
+        comboBox->addItem(QString(adjective.c_str()) + "\n" + QString(type.c_str()) + " Dice",("{\"adjective\":\""+QString(adjective.c_str())+"\",\"type\":\""+QString(type.c_str())+"\"}"));
     }
 
 
