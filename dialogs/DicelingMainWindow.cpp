@@ -101,8 +101,13 @@ CDicelingMainWindow::CDicelingMainWindow(QWidget *parent) : QDialog(parent)
         pushButton_8->setText(QCoreApplication::translate("Diceling", "Banish Set", nullptr));
     QObject::connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     QObject::connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    QObject::connect( comboBox, (void (QComboBox::*)(int)) (&QComboBox::currentIndexChanged), this, [&](const auto index){
+        pushButton_7->setDisabled(comboBox->currentData().type() == QVariant::Type::Int);
+    });
     QObject::connect(pushButton_7,&QPushButton::pressed, this, [&](){
-        qInfo() << comboBox->currentData();
+        if(comboBox->currentData().type() == QVariant::Type::String){
+            qInfo() << "fast";
+        }
     });
 
     QMetaObject::connectSlotsByName(this);
